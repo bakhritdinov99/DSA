@@ -4,10 +4,13 @@
 #include <iostream>
 using namespace std;
 
+// Stekning tugun tuzilmasi
 struct Node {
     int data;
     Node* next;
 };
+
+Node* top = nullptr; // Stek bo'sh
 
 // Element qo'shish (push) funksiyasi
 void push(Node*& top, int value) {
@@ -17,8 +20,25 @@ void push(Node*& top, int value) {
     top = newNode;              // Top ni yangi tugunga ko‘rsatish
 }
 
-// Stek elementlarini chiqarish funksiyasi
+// Stekdan element olib tashlash (pop) funksiyasi, qiymatni qaytaradi
+int pop(Node*& top) {
+    if (top == nullptr) { // Stek bo'shligini tekshirish
+        cout << "Stek bo'sh!" << endl;
+        exit(EXIT_FAILURE); // Xatolik holati
+    }
+    Node* temp = top;
+    int poppedValue = top->data;
+    top = top->next;
+    delete temp;
+    return poppedValue;            // O‘chirilgan elementning qiymatini qaytarish
+}
+
+// Stek elementlarini ko'rsatish funksiyasi
 void display(Node* top) {
+    if (top == nullptr) {
+        cout << "Stek bo'sh!" << endl;
+        return;
+    }
     Node* current = top;
     while (current != nullptr) {
         cout << current->data << " ";
@@ -27,11 +47,16 @@ void display(Node* top) {
     cout << endl;
 }
 
+// Barcha funksiyalarni sinash uchun main funksiyasi
 int main() {
     Node* stack1 = nullptr;
-    push(stack1, 100);
-    push(stack1, 200);
-    push(stack1, 300);
+    push(stack1, 10);
+    push(stack1, 20);
+    push(stack1, 30);
+    push(stack1, 40);
+
+
+    cout << "Olib tashlangan element: " << pop(stack1) << endl;
 
     cout << "Stek elementlari: ";
     display(stack1);
